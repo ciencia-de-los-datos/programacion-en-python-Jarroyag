@@ -11,7 +11,7 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
-
+import csv
 
 def pregunta_01():
     """
@@ -21,7 +21,11 @@ def pregunta_01():
     214
 
     """
-    return
+
+    date = open("data.csv", "r").readlines()
+    col = [int(row[2]) for row in date]
+    suma = sum(col)
+    return suma
 
 
 def pregunta_02():
@@ -39,7 +43,14 @@ def pregunta_02():
     ]
 
     """
-    return
+    from typing import Counter
+    date = open("data.csv", "r").readlines()
+    col = [(row[0]) for row in date]
+    contador =Counter(list(col))
+    
+    tupla = [(key,valor) for key,valor in contador.items()]
+    tupla.sort()
+    return tupla
 
 
 def pregunta_03():
@@ -55,9 +66,22 @@ def pregunta_03():
         ("D", 31),
         ("E", 67),
     ]
-
     """
-    return
+    date = open("data.csv", "r").readlines()
+    dato2 = [(x.split("\t")[0],int(x.split("\t")[1])) for x in date]
+    dato3 = sorted(set([x[0] for x in date]))
+    resul=[]
+    conta =0
+    for dos in dato3:
+      for tres in dato2:
+         if tres[0]==dos:
+          conta +=tres[1]
+     
+      resul.append((dos,conta))
+      conta=0
+    return resul
+    
+    
 
 
 def pregunta_04():
@@ -82,7 +106,12 @@ def pregunta_04():
     ]
 
     """
-    return
+    date = open("data.csv", "r").readlines()
+    dato2 = [(x.split("\t")[2][5:7]) for x in date]
+    dato_mes = sorted(set([x for x in dato2]))
+    cant = [(x,dato2.count(x)) for x in dato_mes]
+
+    return cant
 
 
 def pregunta_05():
@@ -100,7 +129,16 @@ def pregunta_05():
     ]
 
     """
-    return
+    date = open("data.csv", "r").readlines()
+    dato = [(x.split("\t")[0],(x.split("\t")[1])) for x in date]
+    letra = set([x.split("\t")[0] for x in date])
+    tupl_resul=[]
+    for i in letra:
+      temp = list(filter(lambda x: x[0]==i,dato))
+      tupl_resul.append((i,max(temp)[1],min(temp)[1]))
+      tupl_resul.sort()
+
+    return tupl_resul
 
 
 def pregunta_06():
@@ -125,7 +163,24 @@ def pregunta_06():
     ]
 
     """
-    return
+    date = open("data.csv", "r").readlines()
+    date = [val.replace("\n","") for val in date]
+    date = [val.split("\t") for val in date]
+    date = [clave[4].split(",") for clave in date]
+
+    result=[]
+
+    for clave in date:
+      for val in clave:
+        result.append(val.split(":"))
+    dic3 = {clave[0]:[] for clave in sorted(result)}
+
+    for clave in result:
+      dic3[clave[0]].append(int(clave[1]))
+
+    Total = list(zip(dic3.keys(),[min(clave) for clave in dic3.values()],[max(clave) for clave in dic3.values()]))
+
+    return Total
 
 
 def pregunta_07():
@@ -149,7 +204,17 @@ def pregunta_07():
     ]
 
     """
-    return
+    date = open("data.csv", "r").readlines()
+    date = [val.replace("\n", "") for val in date]
+    date = [val.split("\t") for val in date]
+
+    letras = sorted(set([int(x[1]) for x in date]))
+    dic2 = {x:[] for x in letras}
+    for x in date:
+      dic2[int(x[1])].append(x[0])
+    total = list(zip(dic2.keys(),dic2.values())) 
+
+    return total
 
 
 def pregunta_08():
@@ -174,7 +239,20 @@ def pregunta_08():
     ]
 
     """
-    return
+    date = open("data.csv", "r").readlines()
+    date = [val.replace("\n", "") for val in date]
+    date = [val.split("\t") for val in date]
+
+    dic4 = dict()
+    for x in date:
+      if int(x[1]) not in dic4.keys():
+       dic4[int(x[1])]=[x[0]]
+      else:
+         dic4[int(x[1])].append(x[0])
+    total2 = sorted(list(dic4.items())) 
+    total2 = [(i[0],sorted(set(i[1]))) for i in total2]
+
+    return total2
 
 
 def pregunta_09():
@@ -197,7 +275,22 @@ def pregunta_09():
     }
 
     """
-    return
+    date = open("data.csv", "r").readlines()
+    date = [val.replace("\n", "") for val in date]
+    date = [val.split("\t") for val in date]
+
+    col = [(row[4][0:3].split(",")) for row in date]
+
+    resul={}
+
+    for x in col:
+   
+       if x[0] in resul:
+         resul[x[0]]=resul[x[0]] + 1
+       else:
+          resul[x[0]]=1
+
+    return resul
 
 
 def pregunta_10():
@@ -218,7 +311,13 @@ def pregunta_10():
 
 
     """
-    return
+    date = open("data.csv", "r").readlines()
+    date = [val.replace("\n", "") for val in date]
+    date = [val.split("\t") for val in date]
+
+    tupl = [(row[0],len(row[3].split(",")),len(row[4].split(","))) for row in date]
+
+    return tupl
 
 
 def pregunta_11():
@@ -239,7 +338,27 @@ def pregunta_11():
 
 
     """
-    return
+    date = open("data.csv", "r").readlines()
+    date = [val.replace("\n", "") for val in date]
+    date = [val.split("\t") for val in date]
+
+    date = [[val[3].split(","),val[1]] for val in date]
+    date = [[val[0], int(val[1])] for val in date]
+
+    resul2 = []
+
+    for x,y in date:
+      for i in x:
+        resul2.append([i,y])
+    dic5={}
+
+    for x in resul2:
+      if x[0] in dic5:
+       dic5[x[0]]= dic5[x[0]] + x[1]
+      else:
+        dic5[x[0]] = x[1]
+
+    return dic5
 
 
 def pregunta_12():
@@ -257,4 +376,22 @@ def pregunta_12():
     }
 
     """
-    return
+    date = open("data.csv", "r").readlines()
+    date = [val.replace("\n", "") for val in date]
+    date = [val.split("\t") for val in date]
+
+    date = [[val[0],(val[4])] for val in date]
+
+    resul3 = {}
+    for val in date:
+      val2 = val[0]
+      val3 = val[1].split(",")
+    for val4 in val3:
+       temp = int(val4.split(":")[1])
+       if val2 in resul3.keys():
+          resul3[val2].append(temp)
+       else:
+            resul3[val2]=  [temp]
+    resul3 = dict((key,sum(val3)) for key,val3 in sorted(resul3.items(), key=lambda x: x[0]))
+
+    return resul3
