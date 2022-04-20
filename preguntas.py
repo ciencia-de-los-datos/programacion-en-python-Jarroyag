@@ -129,16 +129,24 @@ def pregunta_05():
     ]
 
     """
-    date = open("data.csv", "r").readlines()
-    dato = [(x.split("\t")[0],(x.split("\t")[1])) for x in date]
-    letra = set([x.split("\t")[0] for x in date])
-    tupl_resul=[]
-    for i in letra:
-      temp = list(filter(lambda x: x[0]==i,dato))
-      tupl_resul.append((i,max(temp)[1],min(temp)[1]))
-    tupl_resul.sort()
+    dato = open("data.csv", "r").readlines()
+    dato=[f.replace("\n","")for f in dato]
+    dato=[f.split("\t") for f in dato]
+    
+    id_list=sorted(set([f[0] for f in dato]))
+    lista_datos=[(f[0],int(f[1])) for f in dato]
+    valores=[]
+    tupla4=[]
 
-    return tupl_resul
+    for y in id_list:
+        for x in lista_datos:
+            if x[0]== y:
+                valores.append(x[1])
+
+        tupla4.append((y, max(valores),min(valores)))
+        valores.clear()  
+
+    return tupla4
 
 
 def pregunta_06():
