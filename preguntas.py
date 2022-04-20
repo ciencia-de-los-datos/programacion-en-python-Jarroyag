@@ -276,21 +276,18 @@ def pregunta_09():
 
     """
     date = open("data.csv", "r").readlines()
-    date = [val.replace("\n", "") for val in date]
-    date = [val.split("\t") for val in date]
-
-    col = [(row[4][0:3].split(",")) for row in date]
-
-    resul={}
-
-    for x in col:
+    date=[f.replace("\n","") for f in date]
+    date=[f.split("\t") for f in date]
+    date=[f[4].split(",") for f in date]
+    
+    
+    lista_clave= [(y[:3])for x in date for y in x]
+    keys_dict=sorted(set( elem for elem in lista_clave ))
    
-       if x[0] in resul:
-         resul[x[0]]=resul[x[0]] + 1
-       else:
-          resul[x[0]]=1
-
-    return resul
+    tupla8=[(x,lista_clave.count(x))for x in keys_dict]
+    dict1=dict(tupla8)
+           
+    return dict1
 
 
 def pregunta_10():
@@ -377,21 +374,19 @@ def pregunta_12():
 
     """
     date = open("data.csv", "r").readlines()
-    date = [val.replace("\n", "") for val in date]
-    date = [val.split("\t") for val in date]
-
-    date = [[val[0],(val[4])] for val in date]
-
-    resul3 = {}
-    for val in date:
-      val2 = val[0]
-      val3 = val[1].split(",")
-    for val4 in val3:
-       temp = int(val4.split(":")[1])
-       if val2 in resul3.keys():
-          resul3[val2].append(temp)
-       else:
-            resul3[val2]=  [temp]
-    resul3 = dict((key,sum(val3)) for key,val3 in sorted(resul3.items(), key=lambda x: x[0]))
-
-    return resul3
+    date = [x.replace("\n", "") for x in date]
+    date = [x.split("\t") for x in date]
+    date=[x[4] for x in date]
+    date = [x.split(",") for x in date]
+    data1=[]
+    for x in date:
+       data1+=x
+       data1 = [x.split(":") for x in data1]
+       dict_list={}
+    for x in data1:
+     if x[0] in dict_list.keys():
+      dict_list[x[0]]+=1
+     else:
+       dict_list[x[0]]=1
+       dict_ord=dict(sorted(dict_list.items()))
+    return dict_ord
