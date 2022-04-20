@@ -136,7 +136,7 @@ def pregunta_05():
     for i in letra:
       temp = list(filter(lambda x: x[0]==i,dato))
       tupl_resul.append((i,max(temp)[1],min(temp)[1]))
-      tupl_resul.sort()
+    tupl_resul.sort()
 
     return tupl_resul
 
@@ -374,19 +374,21 @@ def pregunta_12():
 
     """
     date = open("data.csv", "r").readlines()
-    date = [x.replace("\n", "") for x in date]
-    date = [x.split("\t") for x in date]
-    date=[x[4] for x in date]
-    date = [x.split(",") for x in date]
-    data1=[]
-    for x in date:
-       data1+=x
-       data1 = [x.split(":") for x in data1]
-       dict_list={}
-    for x in data1:
-     if x[0] in dict_list.keys():
-      dict_list[x[0]]+=1
-     else:
-       dict_list[x[0]]=1
-       dict_ord=dict(sorted(dict_list.items()))
-    return dict_ord
+    date=[f.replace("\n","")for f in date]
+    date=[f.split("\t") for f in date]
+
+    col5=[f[4].split(",")for f in date]
+    col1=[(f[0]) for f in date]
+    datos_letras=list(zip(col1,col5))
+
+    dict3_keys=sorted(set(col1))
+    
+    dict3={}
+    for llave in dict3_keys:  
+        dict3[llave]= 0
+   
+    for x, y in datos_letras:
+       for z in y:
+           dict3[x]+= int(z[4:])
+         
+    return dict3
